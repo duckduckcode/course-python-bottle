@@ -56,7 +56,7 @@ In the **index.html**, add the style.css file the same way you usually do for a 
 ```html {diff}
 <head>
   <title>Building Websites with Python and Bottle</title>
-+  <link href="/static/style.css" rel="stylesheet" />
++   <link href="/static/style.css" rel="stylesheet" />
 </head>
 ```
 
@@ -77,7 +77,7 @@ Every file in a Bottle website needs to have a route if it needs to be accessed 
 Import the **static_file** function from the Bottle library:
 
 ```python {diff}
-from bottle import run, route, view, static_file
++ from bottle import run, route, view, static_file
 ```
 
 There are usually a lot of static files in a website. You'll definitely have a CSS file, maybe some JavaScript files, and there could be a whole lot of image files too. Instead of setting up a separate route for every single static file in the website, we can create one route which handles all of those files.
@@ -85,9 +85,9 @@ There are usually a lot of static files in a website. You'll definitely have a C
 Add a route for the **static** folder in your **website.py**:
 
 ```python {diff}
-@route('/static/<filepath:path>')
-def load_static(filepath):
-    return static_file(filepath, root='./static')
++ @route('/static/<filepath:path>')
++ def load_static(filepath):
++     return static_file(filepath, root='./static')
 ```
 
 In the route, instead of using a specific file name, we are using a **pattern**. This route will be used for any file request that matches the pattern.

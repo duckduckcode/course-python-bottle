@@ -45,7 +45,7 @@ Adding a function to the **website.py** is not enough to solve our 404 error. Us
 We can create this link by importing the **route** function from Bottle, and then applying the **route** on a new line above the index function:
 
 ```python {diff}
-from bottle import run, route
++ from bottle import run, route
 
 + @route('/')
 def index():
@@ -89,7 +89,7 @@ The '/' route works for someone accessing your website with or without the slash
 
 Now that we have routed the '/' path to the **index()** function, if we visit the index route in the web browser, we will see the output of that function, which is the simple text "hello!":
 
-![alt_text](../public/images/image2.png "image_tooltip")
+![alt_text](../public/images/image10.png "image_tooltip")
 
 _Going to http://0.0.0.0:8080 in a web browser will route to the index function and display the text "hello!"._
 
@@ -153,7 +153,7 @@ def index():
 
 Now when you load the website you should see the HTML from the index.html displayed:
 
-![alt_text](../public/images/image3.png "image_tooltip")
+![alt_text](../public/images/image1.png "image_tooltip")
 
 Notice that because we are using a **web server**, the pages are accessed using custom path names instead of using the name of each HTML file because it's the Python code that serves up the file.
 

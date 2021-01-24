@@ -50,17 +50,17 @@ Checklist:
 In **website.py**, add a new route for the "Guess My Age" page:
 
 ```python {diff}
-@route('/age-form')
-@view('age-form')
-def age_form():
-    pass
++ @route('/age-form')
++ @view('age-form')
++ def age_form():
++     pass
 ```
 
 The page only needs to show the HTML file, it doesn't need to do any processing so the function can just use a **pass**.
 
 Test the page in the browser:
 
-![alt_text](../public/images/image8.png "image_tooltip")
+![alt_text](../public/images/image9.png "image_tooltip")
 
 Checklist:
 
@@ -71,7 +71,9 @@ Checklist:
 
 ## Create result page HTML
 
-This is the page that will be shown to the user after they submit the form. On this page we want a simple template that will display the **name** that was entered and their estimated **age**:
+This is the page that will be shown to the user after they submit the form. On this page we want a simple template that will display the **name** that was entered and their estimated **age**.
+
+Create a new file called **age-result.html**:
 
 ```html
 <!DOCTYPE html>
@@ -96,18 +98,18 @@ This route will need to match the form **action** attribute from the **age-form.
 Create a route for the page and put in some placeholder data for the **name** and **age** variables.
 
 ```python {diff}
-@route('/age-result')
-@view('age-result')
-def age_result():
-    return dict(
-        name = 'unknown',
-        age = 'unknown'
-    )
++ @route('/age-result')
++ @view('age-result')
++ def age_result():
++   return dict(
++     name = 'unknown',
++     age = 'unknown'
++   )
 ```
 
 View the page to ensure it works correctly:
 
-![alt_text](../public/images/image9.png "image_tooltip")
+![alt_text](../public/images/image5.png "image_tooltip")
 
 Checklist:
 
@@ -132,14 +134,18 @@ def age_result():
 
 After this change, the page can't be accessed directly any more. It **must** be accessed by submitting the form. This makes sure that the page always has the data it needs.
 
-![alt_text](../public/images/image10.png "image_tooltip")
+When a page is loaded directly in a web browser, the browser uses the GET method. We configured our route to only allow the POST method.
 
-Now that we are using the POST method, we can get the form data.
+You should now get an **Error: 405 Method Not Allowed**:
 
-First, import **request** from the Bottle library:
+![alt_text](../public/images/image2.png "image_tooltip")
+
+.
+
+Now that we are using the POST method, we can get the form data. First, import **request** from the Bottle library:
 
 ```python {diff}
-from bottle import run, route, view, static_file, request
++ from bottle import run, route, view, static_file, request
 ```
 
 Then use the **request** to get the name value from the submitted form:
@@ -148,14 +154,18 @@ Then use the **request** to get the name value from the submitted form:
 @route('/age-result', method='POST')
 @view('age-result')
 def age_result():
-+     first_name = request.forms.get('name')
++   first_name = request.forms.get('name')
 
-    return dict(
--         name = 'unknown',
-+         name = first_name,
-        age = 'unknown'
-    )
+  return dict(
+-     name = 'unknown',
++     name = first_name,
+     age = 'unknown'
+  )
 ```
+
+The form result page should now show the name, but the age is still unknown:
+
+![alt_text](../public/images/image13.png "image_tooltip")
 
 Checklist:
 
@@ -166,7 +176,7 @@ Checklist:
 
 ## Understand the Agify API
 
-An API is an **A**pplication **P**rogramming **I**nterface. When any program, application or platform offers a way for developers to interact with it programmatically using code, the set of interactions that are made available are known as the API.
+An API is an **Application Programming Interface**. When any program, application or platform offers a way for developers to interact with it programmatically using code, the set of interactions that are made available are known as the API.
 
 You can visit the home page for the Agify API at **https://agify.io/**
 
@@ -180,7 +190,7 @@ https://api.agify.io?name=YOURNAME
 
 You can test this API directly in your web browser by entering the URL and a name:
 
-![alt_text](../public/images/image11.png "image_tooltip")
+![alt_text](../public/images/image8.png "image_tooltip")
 
 The data returned by the API request is in JSON format. In the browser it's showing as plain text, but it can also be formatted in this way to make it easier to read:
 
@@ -235,10 +245,10 @@ pip3 install requests
 Import the requests library:
 
 ```python {diff}
-import requests
++ import requests
 ```
 
-Make a **get** request to the Agify API and return the result of the estimated age:
+Make a **GET** request to the Agify API and return the result of the estimated age:
 
 ```python {diff}
 @route('/age-result', method='POST')
@@ -257,4 +267,4 @@ def age_result():
 
 And the result should show in the browser:
 
-![alt_text](../public/images/image12.png "image_tooltip")
+![alt_text](../public/images/image4.png "image_tooltip")

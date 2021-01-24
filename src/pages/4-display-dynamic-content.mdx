@@ -37,7 +37,7 @@ The part where we want to use a variable is surrounded by two sets of curly brac
 
 If you view this page without the **day** variable set up, you'll get an error 500 Internal Server error, which happens when there is an error in the Python code:
 
-![alt_text](../public/images/image4.png "image_tooltip")
+![alt_text](../public/images/image11.png "image_tooltip")
 
 The error specifies that the variable "day" is the problem:
 
@@ -55,21 +55,24 @@ Checklist:
 
 ## Send data to the HTML
 
-To send variables to the HTML page, the function for that page needs to return a **dict** with the variable in it. The word **dict** is short for "dictionary" - it's a
+To send variables to the HTML page, the function for that page needs to return a **dict** with the variable in it. The word **dict** is short for "dictionary" - it's a structure which stores a collection of values taht can be accessed by name, similar to looking up the meaning (the value) of a word in a dictionary.
+
+The HTML template will look in the dictionary for any variables that have been used between {{ curly }} brackets. 
 
 ```python {diff}
 @route('/')
 @view('index')
 def index():
-    return dict(
-        day = 'Sunday'
-    )
+-   pass
++   return dict(
++       day = 'Saturday'
++   )
 
 ```
 
 Now when you view the page you should see the day displayed:
 
-![alt_text](../public/images/image5.png "image_tooltip")
+![alt_text](../public/images/image7.png "image_tooltip")
 
 But of course we don't want to update our website every day to display the correct day of the week, so we need a way to send **dynamic** data to the page.
 
@@ -86,7 +89,7 @@ The **index** function is just a normal Python function, so we can add any logic
 We need to import the **date** function from the **datetime** package:
 
 ```python {diff}
-from datetime import date
++ from datetime import date
 ```
 
 The **date** function can then be used in the **index** function to get today's date and pass it to the HTML:
@@ -97,12 +100,10 @@ The **date** function can then be used in the **index** function to get today's 
 def index():
 +    today = date.today()
 
-    data = dict(
+    return dict(
 -        day = 'Monday'
 +        day = today
     )
-
-    return data
 ```
 
 This code will show us today's full date, which is a great start!
