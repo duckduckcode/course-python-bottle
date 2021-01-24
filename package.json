@@ -16,7 +16,8 @@
   "dependencies": {
     "@emotion/react": "^11.1.1",
     "@emotion/styled": "^11.0.0",
-    "docz": "latest",
+    "docz": "^2.3.1",
+    "gatsby-remark-vscode": "^3.2.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },
