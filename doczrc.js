@@ -1,4 +1,5 @@
 export default {
+  title: 'Websites with Python and Bottle',
   typescript: true,
   public: "/public",
   menu: [
