@@ -21,11 +21,11 @@ The **website.py** file will have one function for every page in the website. Th
 
 In your **website.py** add a function for the index page and have it return a simple string:
 
-```python
+```python {diff}
 from bottle import run
 
-def index():
-    return 'hello!'
++def index():
++    return 'hello!'
 
 # Start the website
 run(host='0.0.0.0', port=8080, reloader=True, debug=True)
@@ -44,10 +44,10 @@ Adding a function to the **website.py** is not enough to solve our 404 error. Us
 
 We can create this link by importing the **route** function from Bottle, and then applying the **route** on a new line above the index function:
 
-```python
+```python {diff}
 from bottle import run, route
 
-@route('/')
++ @route('/')
 def index():
     return 'hello!'
 
@@ -130,11 +130,11 @@ Checklist:
 
 In **website.py** add the **view** decorator to the **index** function. Pass in the name of the index page HTML file, without the .html extension. The **index** function will now have two decorators applied:
 
-```python
-from bottle import run, route, view
+```python {diff}
++ from bottle import run, route, view
 
 @route('/')
-@view('index')
++ @view('index')
 def index():
     return 'hello!'
 ```
@@ -143,12 +143,12 @@ The function also needs to be changed so that it doesn't return a string. If you
 
 Change the **return 'hello!'** of the index function to simply **pass**:
 
-```python
+```python {diff}
 @route('/')
 @view('index')
 def index():
-    return 'hello!'
-    pass
+-     return 'hello!'
++     pass
 ```
 
 Now when you load the website you should see the HTML from the index.html displayed:

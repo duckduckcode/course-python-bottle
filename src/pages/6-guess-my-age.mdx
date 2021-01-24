@@ -49,7 +49,7 @@ Checklist:
 
 In **website.py**, add a new route for the "Guess My Age" page:
 
-```python
+```python {diff}
 @route('/age-form')
 @view('age-form')
 def age_form():
@@ -95,7 +95,7 @@ This route will need to match the form **action** attribute from the **age-form.
 
 Create a route for the page and put in some placeholder data for the **name** and **age** variables.
 
-```python
+```python {diff}
 @route('/age-result')
 @view('age-result')
 def age_result():
@@ -120,8 +120,8 @@ Checklist:
 
 The route needs to be changed to accept form data.
 
-```python
-@route('/age-result', method='POST')
+```python {diff}
++ @route('/age-result', method='POST')
 @view('age-result')
 def age_result():
     return dict(
@@ -138,21 +138,21 @@ Now that we are using the POST method, we can get the form data.
 
 First, import **request** from the Bottle library:
 
-```python
+```python {diff}
 from bottle import run, route, view, static_file, request
 ```
 
 Then use the **request** to get the name value from the submitted form:
 
-```python
+```python {diff}
 @route('/age-result', method='POST')
 @view('age-result')
 def age_result():
-    first_name = request.forms.get('name')
++     first_name = request.forms.get('name')
 
     return dict(
-        name = 'unknown',
-        name = first_name,
+-         name = 'unknown',
++         name = first_name,
         age = 'unknown'
     )
 ```
@@ -234,24 +234,24 @@ pip3 install requests
 
 Import the requests library:
 
-```python
+```python {diff}
 import requests
 ```
 
 Make a **get** request to the Agify API and return the result of the estimated age:
 
-```python
+```python {diff}
 @route('/age-result', method='POST')
 @view('age-result')
 def age_result():
     first_name = request.forms.get('name')
 
-    api_result = requests.get('https://api.agify.io/?name=' + first_name)
-    agify_data = api_result.json()
++     api_result = requests.get('https://api.agify.io/?name=' + first_name)
++     agify_data = api_result.json()
 
     return dict(
         name = first_name,
-        age = agify_data['age']
++         age = agify_data['age']
     )
 ```
 

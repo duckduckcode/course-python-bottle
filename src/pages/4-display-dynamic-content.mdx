@@ -24,12 +24,12 @@ To try this out, we'll update the index page to display the day of the week.
 
 In **index.html** add a new paragraph to display the day of the week:
 
-```html
+```html {diff}
 <body>
   <h1>Building Websites with Python and Bottle</h1>
   <p>Welcome to my website!</p>
 
-  <p>Today is {{day}}</p>
++  <p>Today is {{day}}</p>
 </body>
 ```
 
@@ -57,7 +57,7 @@ Checklist:
 
 To send variables to the HTML page, the function for that page needs to return a **dict** with the variable in it. The word **dict** is short for "dictionary" - it's a
 
-```python
+```python {diff}
 @route('/')
 @view('index')
 def index():
@@ -85,21 +85,21 @@ The **index** function is just a normal Python function, so we can add any logic
 
 We need to import the **date** function from the **datetime** package:
 
-```python
+```python {diff}
 from datetime import date
 ```
 
 The **date** function can then be used in the **index** function to get today's date and pass it to the HTML:
 
-```python
+```python {diff}
 @route('/')
 @view('index')
 def index():
-    today = date.today()
++    today = date.today()
 
     data = dict(
-        day = 'Monday'
-        day = today
+-        day = 'Monday'
++        day = today
     )
 
     return data
@@ -121,7 +121,7 @@ Dates in Python can be formatted as strings using the **strftime** function. The
 
 For example this code will display the date as "25 January 2021":
 
-```python
+```python {diff}
 date = date(2021, 1, 25)
 formatted_date = date.strftime('%d %B %Y')
 print(formatted_date)
@@ -225,15 +225,15 @@ Checklist:
 
 Using Python's built-in date formatting, we can use the **strftime** function to display the day of the week as a full word. The formatting code for the full day name is **%A**, so this string is passed to the **strftime** function:
 
-```python
+```python {diff}
 @route('/')
 @view('index')
 def index():
     today = date.today()
 
     return dict(
-        day = today
-        day = today.strftime('%A')
+-        day = today
++        day = today.strftime('%A')
     )
 ```
 
