@@ -1,0 +1,139 @@
+---
+name: Add support for CSS and Images
+---
+
+# Add support for CSS and Images
+
+When you're building a website using Python and Bottle, none of the files from the project can be accessed unless they have **routing** set up. That means that for any CSS, JavaScript or image files you need to set up a route in the same way as you would for a page.
+
+These files are known as **static** files. Remember the difference between a **static** website vs a **dynamic** website, from the start of this tutorial?
+
+> "In a static website, all the files are written using plain HTML and CSS and the website looks the same for every visitor. In a dynamic website, a program can display different things on the website depending on the data entered by the user."
+
+Although we are building a **dynamic** website that can show different content for each user, our dynamic website contains some **static **content which is the same for every user. CSS, JavaScript and image files are not dynamic, they are static.
+
+In a website built with Bottle it is recommended to put all these **static** files in one folder, and then create one route which will work for all static files.
+
+To add a CSS file you will need to:
+
+- Create a stylesheet
+- Add the stylesheet to the HTML head
+- Create a route for the stylesheet
+
+##
+
+## Create a stylesheet
+
+In your project create a new folder called **static**.
+
+In the **static** folder, create a new CSS file called **style.css**:
+
+```css
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  text-align: center;
+  background-color: bisque;
+}
+```
+
+This is a very basic stylesheet that changes the font to the default sans-serif font and adds a background colour. When the CSS has been set up correctly in Bottle you'll be able to see the background colour change.
+
+Adding a CSS file to the project isn't enough - we also need to load the CSS from the HTML, and add a route using Bottle. You won't see the CSS affecting your page yet!
+
+Checklist:
+
+- Create a **static** folder in your project
+- Create a new file in **static** called **style.css**
+- Add some simple CSS to the file so you'll be able to see when it's working
+
+## Add stylesheet to the &lt;head>
+
+In the **index.html**, add the style.css file the same way you usually do for a website:
+
+```html
+<head>
+  <title>Building Websites with Python and Bottle</title>
+  <link href="/static/style.css" rel="stylesheet" />
+</head>
+```
+
+If you try to load the website in the browser, the CSS will not work. If you open the developer tools, you'll see that there was a** 404 File not found** error for styles.css, which is the same error we had for the index page before a route was set up for it.
+
+Checklist:
+
+- Add a &lt;link> tag in **index.html** to load the CSS file
+- Double check the CSS path is correctly set to **/static/style.css**
+- Check the web browser dev tools to see the 404 error
+
+##
+
+## Create a route for the stylesheet
+
+Every file in a Bottle website needs to have a route if it needs to be accessed from the web browser. For static files, Bottle has a special function for serving up the files in the correct format, since they can be any kind of file, not just HTML.
+
+Import the **static_file** function from the Bottle library:
+
+```python
+from bottle import run, route, view, static_file
+```
+
+There are usually a lot of static files in a website. You'll definitely have a CSS file, maybe some JavaScript files, and there could be a whole lot of image files too. Instead of setting up a separate route for every single static file in the website, we can create one route which handles all of those files.
+
+Add a route for the **static** folder in your **website.py**:
+
+```python
+@route('/static/<filepath:path>')
+def load_static(filepath):
+    return static_file(filepath, root='./static')
+```
+
+In the route, instead of using a specific file name, we are using a **pattern**. This route will be used for any file request that matches the pattern.
+
+```python
+@route('/static/<filepath:path>')
+```
+
+- The requested file path must start with **/static/**
+- Everything after **/static/ **should be captured by the **&lt; > **brackets
+- The bit after **/static**/ should be stored in a variable called **filepath**
+- The variable **filepath** should be the special type **path** to support both files and folder
+
+```python
+  def load_static(filepath):
+```
+
+- Pass the **filepath** variable from the route into the function
+
+```python
+return static_file(filepath, root='./static')
+```
+
+- Look for files in the folder called **./static**
+- Use the **filepath** variable to find a matching file in the folder
+- Return the file as a Bottle **static_file**
+
+These are all the steps you need to set up static file routing in Bottle. You might find that the CSS still doesn't show in the web browser - if so, do a **hard refresh** by holding **Shift** when you click refresh.
+
+Checklist:
+
+- Import **static_file**
+- Create a route for all files in the **static** folder
+- Check that the CSS is loading in the browser (you might need to hold **Shift** when you refresh)
+
+## Clear the browser cache
+
+Why do we sometimes need to do a **hard refresh** to see CSS changes in a web browser?
+
+Web browsers usually save a copy of any CSS files they load so that they don't have to get it from the server every time a page is reloaded. Storing files like this is called **caching**. When a file has been stored in the cache, you need to do a **hard reload **of the website to make sure the browser loads the whole website and all its files from the server instead of from the browser cache.
+
+To do a **hard reload** in Google Chrome, hold down the **Shift **key while you click the reload button.
+
+You can see the difference between a normal reload and a hard reload by looking at the Bottle output in the command line. When using a normal reload, only the HTML will be requested from the server. When doing a hard reload both the HTML and CSS will be requested from the server.
+
+Checklist:
+
+- Try a normal refresh and a hard refresh in Google Chrome
+- Read the server requests in the command line and spot the difference for a hard refresh
